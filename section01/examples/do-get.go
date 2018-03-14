@@ -31,3 +31,7 @@ func doGet() {
 	}
 	fmt.Println(res.Status)
 }
+
+func main() {
+	doGet()
+}

@@ -17,20 +17,25 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strings"
 )
 
-func main() {
-	// try changing the value of this url
-	res, err := http.Get("https://golang.org")
+func doPut() {
+	body := strings.NewReader("Hi there!! I'm D.")
+	req, err := http.NewRequest("PUT", "https://http-methods.appspot.com/MyNameIs/Message", body)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("could not create request: %v", err)
 	}
-	defer res.Body.Close()
-	fmt.Println(res.Status)
 
-	var p []byte
-	n, err := res.Body.Read(p)
-	if n > 0 {
-		fmt.Println(string(p[:n]))
+	client := http.DefaultClient
+	res, err := client.Do(req)
+	if err != nil {
+		log.Fatalf("http request failed: %v", err)
 	}
+
+	fmt.Println(res.Status)
+}
+
+func main() {
+	doPut()
 }
